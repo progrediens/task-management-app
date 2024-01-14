@@ -17,27 +17,27 @@ import org.hibernate.type.TrueFalseConverter;
 @SoftDelete(columnName = "is_deleted",
         converter = TrueFalseConverter.class)
 public class Project {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  @Column(nullable = false)
-  private String name;
+    @Column(nullable = false)
+    private String name;
 
-  private String description;
-  @Column(name = "start_date", nullable = false)
-  private LocalDate startDate;
-  @Column(name = "end_date", nullable = false)
-  private LocalDate endDate;
-  @Column(nullable = false)
-  @Enumerated(EnumType.STRING)
-  private Status status;
-  @Column(name = "is_deleted", nullable = false)
-  private boolean isDeleted;
+    private String description;
+    @Column(name = "start_date", nullable = false)
+    private LocalDate startDate;
+    @Column(name = "end_date", nullable = false)
+    private LocalDate endDate;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Status status;
+    @Column(name = "is_deleted", nullable = false)
+    private boolean isDeleted;
 
-  public enum Status {
-    NOT_STARTED,
-    IN_PROGRESS,
-    COMPLETED
-  }
+    public enum Status {
+        NOT_STARTED,
+        IN_PROGRESS,
+        COMPLETED
+    }
 }

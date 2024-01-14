@@ -12,7 +12,7 @@ import org.mapstruct.NullValueCheckStrategy;
         nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
         implementationPackage = "<PACKAGE_NAME>.impl")
 public interface ProjectMapper {
-  ProjectDto toDto(Project project);
+    ProjectDto toDto(Project project);
 
-  Project toEntity(CreateProjectRequestDto requestDto);
+    Project toEntity(CreateProjectRequestDto requestDto);
 }
