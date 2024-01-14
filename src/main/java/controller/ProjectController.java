@@ -1,8 +1,8 @@
 package controller;
 
-import jakarta.validation.Valid;
 import dto.CreateProjectRequestDto;
 import dto.ProjectDto;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,11 +16,11 @@ import service.ProjectService;
 @RequestMapping
 @Validated
 public class ProjectController {
-  private final ProjectService projectService;
+    private final ProjectService projectService;
 
-  @PostMapping(value = "/projects")
-  public ProjectDto createProject(
-          @RequestBody @Valid CreateProjectRequestDto requestDto) {
-    return projectService.createProject(requestDto);
-  }
+    @PostMapping(value = "/projects")
+    public ProjectDto createProject(
+            @RequestBody @Valid CreateProjectRequestDto requestDto) {
+        return projectService.createProject(requestDto);
+    }
 }
