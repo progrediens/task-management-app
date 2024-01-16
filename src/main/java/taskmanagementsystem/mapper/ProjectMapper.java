@@ -1,16 +1,16 @@
-package com.example.taskmanagementsystem.mapper;
+package taskmanagementsystem.mapper;
 
-import com.example.taskmanagementsystem.dto.CreateProjectRequestDto;
-import com.example.taskmanagementsystem.dto.ProjectDto;
-import com.example.taskmanagementsystem.dto.SimplifiedProjectDto;
-import com.example.taskmanagementsystem.dto.UpdateProjectRequestDto;
-import com.example.taskmanagementsystem.model.Project;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
+import taskmanagementsystem.dto.CreateProjectRequestDto;
+import taskmanagementsystem.dto.ProjectDto;
+import taskmanagementsystem.dto.SimplifiedProjectDto;
+import taskmanagementsystem.dto.UpdateProjectRequestDto;
+import taskmanagementsystem.model.Project;
 
 @Mapper(componentModel = "spring",
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
