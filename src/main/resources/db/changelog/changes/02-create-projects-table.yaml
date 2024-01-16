@@ -9,9 +9,15 @@ databaseChangeLog:
               - column:
                   name: id
                   type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
                   constraints:
                     nullable: false
-                    primaryKey: true
               - column:
                   name: description
                   type: varchar(255)
@@ -27,12 +33,9 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: status
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
+                  type: enum('INITIATED', 'IN_PROGRESS', 'COMPLETED')
               - column:
                   name: is_deleted
-                  type: boolean
-                  defaultValueBoolean: false
+                  type: char(1)
                   constraints:
                     nullable: false
