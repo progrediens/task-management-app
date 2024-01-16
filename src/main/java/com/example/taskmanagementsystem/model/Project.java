@@ -1,4 +1,4 @@
-package model;
+package com.example.taskmanagementsystem.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,10 +9,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
 import org.hibernate.annotations.SoftDelete;
 import org.hibernate.type.TrueFalseConverter;
 
 @Entity
+@Data
 @Table(name = "projects")
 @SoftDelete(columnName = "is_deleted",
         converter = TrueFalseConverter.class)
@@ -25,19 +29,33 @@ public class Project {
     private String name;
 
     private String description;
+
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
+
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status;
-    @Column(name = "is_deleted", nullable = false)
-    private boolean isDeleted;
 
+    @Getter
+    @AllArgsConstructor
     public enum Status {
-        NOT_STARTED,
-        IN_PROGRESS,
-        COMPLETED
+        INITIATED("INITIATED"),
+        IN_PROGRESS("IN_PROGRESS"),
+        COMPLETED("COMPLETED");
+
+        private final String text;
+
+        public static Status fromText(String text) {
+            for (Status status : Status.values()) {
+                if (status.getText().equals(text)) {
+                    return status;
+                }
+            }
+            throw new IllegalArgumentException("No constant with text " + text + " found");
+        }
     }
 }
