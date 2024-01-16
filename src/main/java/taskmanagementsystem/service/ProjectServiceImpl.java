@@ -1,18 +1,18 @@
-package com.example.taskmanagementsystem.service;
+package taskmanagementsystem.service;
 
-import com.example.taskmanagementsystem.dto.CreateProjectRequestDto;
-import com.example.taskmanagementsystem.dto.ProjectDto;
-import com.example.taskmanagementsystem.dto.SimplifiedProjectDto;
-import com.example.taskmanagementsystem.dto.UpdateProjectRequestDto;
-import com.example.taskmanagementsystem.mapper.ProjectMapper;
-import com.example.taskmanagementsystem.model.Project;
-import com.example.taskmanagementsystem.repository.ProjectRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import taskmanagementsystem.dto.CreateProjectRequestDto;
+import taskmanagementsystem.dto.ProjectDto;
+import taskmanagementsystem.dto.SimplifiedProjectDto;
+import taskmanagementsystem.dto.UpdateProjectRequestDto;
+import taskmanagementsystem.mapper.ProjectMapper;
+import taskmanagementsystem.model.Project;
+import taskmanagementsystem.repository.ProjectRepository;
 
 @Service
 @RequiredArgsConstructor

@@ -1,10 +1,5 @@
-package com.example.taskmanagementsystem.controller;
+package taskmanagementsystem.controller;
 
-import com.example.taskmanagementsystem.dto.CreateProjectRequestDto;
-import com.example.taskmanagementsystem.dto.ProjectDto;
-import com.example.taskmanagementsystem.dto.SimplifiedProjectDto;
-import com.example.taskmanagementsystem.dto.UpdateProjectRequestDto;
-import com.example.taskmanagementsystem.service.ProjectService;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +13,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import taskmanagementsystem.dto.CreateProjectRequestDto;
+import taskmanagementsystem.dto.ProjectDto;
+import taskmanagementsystem.dto.SimplifiedProjectDto;
+import taskmanagementsystem.dto.UpdateProjectRequestDto;
+import taskmanagementsystem.service.ProjectService;
 
 @RestController
 @RequiredArgsConstructor

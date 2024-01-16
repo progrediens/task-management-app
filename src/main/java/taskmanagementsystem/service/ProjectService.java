@@ -1,11 +1,11 @@
-package com.example.taskmanagementsystem.service;
+package taskmanagementsystem.service;
 
-import com.example.taskmanagementsystem.dto.CreateProjectRequestDto;
-import com.example.taskmanagementsystem.dto.ProjectDto;
-import com.example.taskmanagementsystem.dto.SimplifiedProjectDto;
-import com.example.taskmanagementsystem.dto.UpdateProjectRequestDto;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
+import taskmanagementsystem.dto.CreateProjectRequestDto;
+import taskmanagementsystem.dto.ProjectDto;
+import taskmanagementsystem.dto.SimplifiedProjectDto;
+import taskmanagementsystem.dto.UpdateProjectRequestDto;
 
 public interface ProjectService {
     ProjectDto createProject(CreateProjectRequestDto project);

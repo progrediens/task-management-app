@@ -1,4 +1,4 @@
-package com.example.taskmanagementsystem.model;
+package taskmanagementsystem.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

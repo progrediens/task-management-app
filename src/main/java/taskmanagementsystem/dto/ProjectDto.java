@@ -1,7 +1,7 @@
-package com.example.taskmanagementsystem.dto;
+package taskmanagementsystem.dto;
 
-import com.example.taskmanagementsystem.model.Project;
 import java.time.LocalDate;
+import taskmanagementsystem.model.Project;
 
 public record ProjectDto(
         Long id,
