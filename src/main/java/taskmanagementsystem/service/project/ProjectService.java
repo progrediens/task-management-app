@@ -9,13 +9,19 @@ import taskmanagementsystem.dto.projectdto.SimplifiedProjectDto;
 import taskmanagementsystem.dto.projectdto.UpdateProjectRequestDto;
 
 public interface ProjectService {
-    ProjectDto createProject(CreateProjectRequestDto project, Authentication authentication);
+    ProjectDto createProject(CreateProjectRequestDto project,
+                             Authentication authentication);
 
-    List<SimplifiedProjectDto> getAllProjects(Pageable pageable);
+    List<SimplifiedProjectDto> getAllProjects(Pageable pageable,
+                                              Authentication authentication);
 
-    ProjectDto getProjectDetailsById(Long id);
+    ProjectDto getProjectDetailsById(Long id,
+                                     Authentication authentication);
 
-    ProjectDto updateProjectById(Long id, UpdateProjectRequestDto requestDto);
+    ProjectDto updateProjectById(Long id,
+                                 UpdateProjectRequestDto requestDto,
+                                 Authentication authentication);
 
-    void deleteProjectById(Long id);
+    void deleteProjectById(Long id,
+                           Authentication authentication);
 }

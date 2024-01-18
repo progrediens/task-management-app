@@ -8,9 +8,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,28 +29,36 @@ public class ProjectController {
 
     @PostMapping
     public ProjectDto createProject(
-            @RequestBody @Valid CreateProjectRequestDto requestDto, Authentication authentication) {
+            @RequestBody @Valid CreateProjectRequestDto requestDto,
+            Authentication authentication) {
         return projectService.createProject(requestDto, authentication);
     }
 
     @GetMapping
-    public List<SimplifiedProjectDto> getAllProjects(Pageable pageable) {
-        return projectService.getAllProjects(pageable);
+    public List<SimplifiedProjectDto> getAllProjects(Pageable pageable,
+                                                     Authentication authentication) {
+        return projectService.getAllProjects(pageable, authentication);
     }
 
     @GetMapping("/{id}")
-    public ProjectDto getProjectById(@PathVariable @Valid Long id) {
-        return projectService.getProjectDetailsById(id);
+    public ProjectDto getProjectById(
+            @PathVariable @Valid Long id,
+            Authentication authentication) {
+        return projectService.getProjectDetailsById(id, authentication);
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ProjectDto updateProjectById(
-            @PathVariable @Valid Long id, @RequestBody UpdateProjectRequestDto requestDto) {
-        return projectService.updateProjectById(id, requestDto);
+            @PathVariable @Valid Long id,
+            @RequestBody UpdateProjectRequestDto requestDto,
+            Authentication authentication) {
+        return projectService.updateProjectById(id, requestDto, authentication);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProject(@PathVariable @Valid Long id) {
-        projectService.deleteProjectById(id);
+    public void deleteProject(
+            @PathVariable @Valid Long id,
+            Authentication authentication) {
+        projectService.deleteProjectById(id, authentication);
     }
 }

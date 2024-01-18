@@ -27,6 +27,11 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
                 .body(ex.getMessage());
     }
 
+    @ExceptionHandler(ProjectNotFoundException.class)
+    protected ResponseEntity<Object> handleProjectNotFoundException(ProjectNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,

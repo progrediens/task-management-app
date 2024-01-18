@@ -2,7 +2,7 @@ package taskmanagementsystem.service.project;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -12,6 +12,7 @@ import taskmanagementsystem.dto.projectdto.CreateProjectRequestDto;
 import taskmanagementsystem.dto.projectdto.ProjectDto;
 import taskmanagementsystem.dto.projectdto.SimplifiedProjectDto;
 import taskmanagementsystem.dto.projectdto.UpdateProjectRequestDto;
+import taskmanagementsystem.exception.ProjectNotFoundException;
 import taskmanagementsystem.mapper.ProjectMapper;
 import taskmanagementsystem.model.Project;
 import taskmanagementsystem.model.User;
@@ -27,7 +28,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Transactional
     @Override
-    public ProjectDto createProject(CreateProjectRequestDto requestDto, Authentication authentication) {
+    public ProjectDto createProject(
+            CreateProjectRequestDto requestDto,
+            Authentication authentication) {
         User user = getUser(authentication);
         Project projectEntity = projectMapper.toEntity(requestDto);
         projectEntity.setStartDate(LocalDate.now());
@@ -40,33 +43,57 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<SimplifiedProjectDto> getAllProjects(Pageable pageable) {
-        //implement logic,include finding all projects by user id
-        return projectRepository.findAll().stream()
+    public List<SimplifiedProjectDto> getAllProjects(
+            Pageable pageable,
+            Authentication authentication) {
+        User user = getUser(authentication);
+        List<Project> userProjects = projectRepository.findAllByUsersId(user.getId());
+        return userProjects.stream()
                 .map(projectMapper::toSimplifiedDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
-    public ProjectDto getProjectDetailsById(Long id) {
-        return projectMapper.toDto(projectRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Can't find project by this id: " + id)));
+    public ProjectDto getProjectDetailsById(
+            Long id,
+            Authentication authentication) {
+        Project userProjectById = getUserProjectById(id, authentication)
+                .orElseThrow(() -> new ProjectNotFoundException(
+                        "Can't get details about project by this id: " + id));
+        return projectMapper.toDto(userProjectById);
     }
 
     @Override
-    public ProjectDto updateProjectById(Long id, UpdateProjectRequestDto requestDto) {
-        Project projectFromDb = projectRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Can't find project by this id: " + id));
-        projectMapper.updateProjectFromDto(requestDto, projectFromDb);
-        return projectMapper.toDto(projectRepository.save(projectFromDb));
+    public ProjectDto updateProjectById(
+            Long id,
+            UpdateProjectRequestDto requestDto,
+            Authentication authentication) {
+        Project userProjectById = getUserProjectById(id, authentication)
+                .orElseThrow(() -> new ProjectNotFoundException(
+                        "Can't update project by this id: " + id));
+        projectMapper.updateProjectFromDto(requestDto, userProjectById);
+        return projectMapper.toDto(projectRepository.save(userProjectById));
     }
 
     @Override
-    public void deleteProjectById(Long id) {
-        projectRepository.deleteById(id);
+    public void deleteProjectById(
+            Long id,
+            Authentication authentication) {
+        Project userProjectById = getUserProjectById(id, authentication)
+                .orElseThrow(() -> new ProjectNotFoundException(
+                        "Can't delete project by this id: " + id));
+        projectRepository.deleteById(userProjectById.getId());
     }
 
-    private User getUser(Authentication authentication) {
+    private Optional<Project> getUserProjectById(
+            Long id,
+            Authentication authentication) {
+        User user = getUser(authentication);
+        return projectRepository.findByIdAndUsersId(id, user.getId());
+    }
+
+    private User getUser(
+            Authentication authentication) {
         return (User) customUserDetailService.loadUserByUsername(authentication.getName());
     }
 }
