@@ -16,7 +16,7 @@ import taskmanagementsystem.dto.userdto.UserLoginResponseDto;
 import taskmanagementsystem.dto.userdto.UserRegistrationRequestDto;
 import taskmanagementsystem.dto.userdto.UserResponseDto;
 import taskmanagementsystem.security.AuthenticationService;
-import taskmanagementsystem.service.UserService;
+import taskmanagementsystem.service.user.UserService;
 
 @Tag(name = "Authentication management", description = "Endpoints for managing authentication")
 @RestController

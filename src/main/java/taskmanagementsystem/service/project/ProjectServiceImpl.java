@@ -1,34 +1,42 @@
-package taskmanagementsystem.service;
+package taskmanagementsystem.service.project;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import taskmanagementsystem.dto.CreateProjectRequestDto;
-import taskmanagementsystem.dto.ProjectDto;
-import taskmanagementsystem.dto.SimplifiedProjectDto;
-import taskmanagementsystem.dto.UpdateProjectRequestDto;
+import org.springframework.transaction.annotation.Transactional;
+import taskmanagementsystem.dto.projectdto.CreateProjectRequestDto;
+import taskmanagementsystem.dto.projectdto.ProjectDto;
+import taskmanagementsystem.dto.projectdto.SimplifiedProjectDto;
+import taskmanagementsystem.dto.projectdto.UpdateProjectRequestDto;
 import taskmanagementsystem.mapper.ProjectMapper;
 import taskmanagementsystem.model.Project;
+import taskmanagementsystem.model.User;
 import taskmanagementsystem.repository.ProjectRepository;
+import taskmanagementsystem.security.CustomUserDetailService;
 
 @Service
 @RequiredArgsConstructor
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
     private final ProjectMapper projectMapper;
+    private final CustomUserDetailService customUserDetailService;
 
+    @Transactional
     @Override
-    public ProjectDto createProject(CreateProjectRequestDto project) {
-        Project entity = projectMapper.toEntity(project);
-        entity.setStartDate(LocalDate.now());
-        entity.setStatus(project.status() == null
+    public ProjectDto createProject(CreateProjectRequestDto requestDto, Authentication authentication) {
+        User user = getUser(authentication);
+        Project projectEntity = projectMapper.toEntity(requestDto);
+        projectEntity.setStartDate(LocalDate.now());
+        projectEntity.setStatus(requestDto.status() == null
                 ? Project.Status.INITIATED
-                : Project.Status.fromText(String.valueOf(project.status())));
-        projectRepository.save(entity);
-        return projectMapper.toDto(entity);
+                : Project.Status.fromText(String.valueOf(requestDto.status())));
+        projectEntity.addUser(user);
+        projectRepository.save(projectEntity);
+        return projectMapper.toDto(projectEntity);
     }
 
     @Override
@@ -56,5 +64,9 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void deleteProjectById(Long id) {
         projectRepository.deleteById(id);
+    }
+
+    private User getUser(Authentication authentication) {
+        return (User) customUserDetailService.loadUserByUsername(authentication.getName());
     }
 }

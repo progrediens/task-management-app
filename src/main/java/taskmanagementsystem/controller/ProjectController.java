@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,11 +14,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import taskmanagementsystem.dto.CreateProjectRequestDto;
-import taskmanagementsystem.dto.ProjectDto;
-import taskmanagementsystem.dto.SimplifiedProjectDto;
-import taskmanagementsystem.dto.UpdateProjectRequestDto;
-import taskmanagementsystem.service.ProjectService;
+import taskmanagementsystem.dto.projectdto.CreateProjectRequestDto;
+import taskmanagementsystem.dto.projectdto.ProjectDto;
+import taskmanagementsystem.dto.projectdto.SimplifiedProjectDto;
+import taskmanagementsystem.dto.projectdto.UpdateProjectRequestDto;
+import taskmanagementsystem.service.project.ProjectService;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,8 +29,8 @@ public class ProjectController {
 
     @PostMapping
     public ProjectDto createProject(
-            @RequestBody @Valid CreateProjectRequestDto requestDto) {
-        return projectService.createProject(requestDto);
+            @RequestBody @Valid CreateProjectRequestDto requestDto, Authentication authentication) {
+        return projectService.createProject(requestDto, authentication);
     }
 
     @GetMapping

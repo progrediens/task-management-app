@@ -1,4 +1,4 @@
-package taskmanagementsystem.dto;
+package taskmanagementsystem.dto.projectdto;
 
 import taskmanagementsystem.model.Project;
 

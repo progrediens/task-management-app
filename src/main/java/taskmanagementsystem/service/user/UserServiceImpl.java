@@ -1,4 +1,4 @@
-package taskmanagementsystem.service.impl;
+package taskmanagementsystem.service.user;
 
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,6 @@ import taskmanagementsystem.model.Role;
 import taskmanagementsystem.model.User;
 import taskmanagementsystem.repository.RoleRepository;
 import taskmanagementsystem.repository.UserRepository;
-import taskmanagementsystem.service.UserService;
 
 @Service
 @RequiredArgsConstructor

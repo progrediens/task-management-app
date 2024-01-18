@@ -1,4 +1,4 @@
-package taskmanagementsystem.service;
+package taskmanagementsystem.service.user;
 
 import taskmanagementsystem.dto.userdto.UserRegistrationRequestDto;
 import taskmanagementsystem.dto.userdto.UserResponseDto;
