@@ -35,6 +35,8 @@ public class AuthController {
         return userService.register(request);
     }
 
+    @Operation(summary = "Log in",
+            description = "Allow users to authenticate into website")
     @PostMapping("/login")
     public UserLoginResponseDto authenticate(@RequestBody UserLoginRequestDto request) {
         return authenticationService.authenticate(request);
