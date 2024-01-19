@@ -6,10 +6,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
-import taskmanagementsystem.dto.CreateProjectRequestDto;
-import taskmanagementsystem.dto.ProjectDto;
-import taskmanagementsystem.dto.SimplifiedProjectDto;
-import taskmanagementsystem.dto.UpdateProjectRequestDto;
+import taskmanagementsystem.dto.projectdto.CreateProjectRequestDto;
+import taskmanagementsystem.dto.projectdto.ProjectDto;
+import taskmanagementsystem.dto.projectdto.SimplifiedProjectDto;
+import taskmanagementsystem.dto.projectdto.UpdateProjectRequestDto;
 import taskmanagementsystem.model.Project;
 
 @Mapper(componentModel = "spring",

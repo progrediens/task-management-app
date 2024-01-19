@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-users_projects-table
+      author: volodymyr_hr
+      changes:
+        - createTable:
+            tableName: users_projects
+            columns:
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    foreignKeyName: fk_users-projects_user
+                    references: users(id)
+              - column:
+                  name: project_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    foreignKeyName: fk_users-projects_project
+                    references: projects(id)

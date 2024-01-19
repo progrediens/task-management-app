@@ -11,6 +11,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -43,6 +44,11 @@ public class User implements UserDetails {
 
     @Column(nullable = false, name = "last_name")
     private String lastName;
+
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @ManyToMany(mappedBy = "users")
+    private List<Project> projects;
 
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

@@ -16,7 +16,7 @@ import taskmanagementsystem.dto.userdto.UserLoginResponseDto;
 import taskmanagementsystem.dto.userdto.UserRegistrationRequestDto;
 import taskmanagementsystem.dto.userdto.UserResponseDto;
 import taskmanagementsystem.security.AuthenticationService;
-import taskmanagementsystem.service.UserService;
+import taskmanagementsystem.service.user.UserService;
 
 @Tag(name = "Authentication management", description = "Endpoints for managing authentication")
 @RestController
@@ -35,6 +35,8 @@ public class AuthController {
         return userService.register(request);
     }
 
+    @Operation(summary = "Log in",
+            description = "Allow users to authenticate into website")
     @PostMapping("/login")
     public UserLoginResponseDto authenticate(@RequestBody UserLoginRequestDto request) {
         return authenticationService.authenticate(request);
