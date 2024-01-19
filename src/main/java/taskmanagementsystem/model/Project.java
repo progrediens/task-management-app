@@ -58,11 +58,6 @@ public class Project {
         user.getProjects().add(this);
     }
 
-    public void removeUser(User user) {
-        this.users.remove(user);
-        user.getProjects().remove(this);
-    }
-
     @Getter
     @AllArgsConstructor
     public enum Status {
