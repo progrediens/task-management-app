@@ -4,8 +4,6 @@ import java.util.Collections;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,6 +12,7 @@ import taskmanagementsystem.dto.userdto.UserInfoResponseDto;
 import taskmanagementsystem.dto.userdto.UserRegistrationRequestDto;
 import taskmanagementsystem.dto.userdto.UserResponseDto;
 import taskmanagementsystem.dto.userdto.UserUpdateInfoRequestDto;
+import taskmanagementsystem.dto.userdto.UserUpdateRoleRequestDto;
 import taskmanagementsystem.exception.EntityNotFoundException;
 import taskmanagementsystem.exception.RegistrationException;
 import taskmanagementsystem.mapper.UserMapper;
@@ -53,27 +52,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponseDto updateUserRole(Long id, String role) {
+    public UserResponseDto updateUserRole(Long id, UserUpdateRoleRequestDto newRole) {
         User user = getUserById(id);
-        Role newRole = roleRepository.findRoleByName(Role.RoleName.valueOf(role)).orElseThrow(
-                () -> new EntityNotFoundException(
-                        "There is no role with name " + role));
-        user.setRoles(Set.of(newRole));
+        Role role = roleRepository.findRoleByName(Role.RoleName.valueOf(newRole.role()))
+                .orElseThrow(
+                        () -> new EntityNotFoundException(
+                                "There is no role with name " + newRole.role()));
+        user.setRoles(Set.of(role));
         return userMapper.toDto(userRepository.save(user));
     }
 
     @Transactional
     @Override
-    public UserInfoResponseDto updateProfileInfo(UserUpdateInfoRequestDto requestDto) {
-        User user = getAuthenticatedUser();
+    public UserInfoResponseDto updateProfileInfo(UserUpdateInfoRequestDto requestDto,
+                                                 Authentication authentication) {
+        User user = getUser(authentication);
         userMapper.toUserUpdate(requestDto, user);
         return userMapper.toInfoResponse(userRepository.save(user));
     }
 
-    private User getAuthenticatedUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return userRepository.findByEmail(userDetails.getUsername()).get();
+    private User getUser(Authentication authentication) {
+        return (User) userDetailsService.loadUserByUsername(authentication.getName());
+
     }
 
     private User getUserById(Long id) {

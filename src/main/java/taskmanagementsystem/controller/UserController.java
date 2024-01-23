@@ -35,13 +35,13 @@ public class UserController {
     @PutMapping("/{id}/role")
     public UserResponseDto updateUserRole(@PathVariable @Positive Long id,
                                           @RequestBody UserUpdateRoleRequestDto newRole) {
-        return userService.updateUserRole(id, newRole.role());
+        return userService.updateUserRole(id, newRole);
     }
 
     @PreAuthorize("hasRole('USER')")
     @PatchMapping("/update")
-    public UserInfoResponseDto updateUserInfo(
+    public UserInfoResponseDto updateUserInfo(Authentication authentication,
             @RequestBody UserUpdateInfoRequestDto requestDto) {
-        return userService.updateProfileInfo(requestDto);
+        return userService.updateProfileInfo(requestDto, authentication);
     }
 }
