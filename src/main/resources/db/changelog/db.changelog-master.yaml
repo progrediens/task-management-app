@@ -6,6 +6,8 @@ databaseChangeLog:
   - include:
       file: db/changelog/changes/01.2-create-users-roles-table.yaml
   - include:
+      file: db/changelog/changes/01.3-insert-roles.yaml
+  - include:
       file: db/changelog/changes/02-create-projects-table.yaml
   - include:
       file: db/changelog/changes/02.1-create-users_projects-table.yaml
