@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public UserInfoResponseDto getInfo(Authentication authentication) {
-        User user = (User) userDetailsService.loadUserByUsername(authentication.getName());
+        User user = getUser(authentication);
         return userMapper.toInfoResponse(userRepository.getReferenceById(user.getId()));
     }
 
