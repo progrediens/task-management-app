@@ -3,7 +3,6 @@ package taskmanagementsystem.service.user;
 import java.util.Collections;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +25,6 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
-    private final UserDetailsService userDetailsService;
 
     @Override
     public UserResponseDto register(UserRegistrationRequestDto requestDto) {
