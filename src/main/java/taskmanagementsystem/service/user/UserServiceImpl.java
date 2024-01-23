@@ -3,6 +3,10 @@ package taskmanagementsystem.service.user;
 import java.util.Collections;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +29,7 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
+    private final UserDetailsService userDetailsService;
 
     @Override
     public UserResponseDto register(UserRegistrationRequestDto requestDto) {
@@ -42,8 +47,9 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public UserInfoResponseDto getInfo(Long id) {
-        return userMapper.toInfoResponse(userRepository.getReferenceById(id));
+    public UserInfoResponseDto getInfo(Authentication authentication) {
+        User user = (User) userDetailsService.loadUserByUsername(authentication.getName());
+        return userMapper.toInfoResponse(userRepository.getReferenceById(user.getId()));
     }
 
     @Override
@@ -58,10 +64,16 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public UserInfoResponseDto updateProfileInfo(Long id, UserUpdateInfoRequestDto requestDto) {
-        User user = getUserById(id);
+    public UserInfoResponseDto updateProfileInfo(UserUpdateInfoRequestDto requestDto) {
+        User user = getAuthenticatedUser();
         userMapper.toUserUpdate(requestDto, user);
         return userMapper.toInfoResponse(userRepository.save(user));
+    }
+
+    private User getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        return userRepository.findByEmail(userDetails.getUsername()).get();
     }
 
     private User getUserById(Long id) {

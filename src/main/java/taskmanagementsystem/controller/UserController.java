@@ -16,7 +16,6 @@ import taskmanagementsystem.dto.userdto.UserInfoResponseDto;
 import taskmanagementsystem.dto.userdto.UserResponseDto;
 import taskmanagementsystem.dto.userdto.UserUpdateInfoRequestDto;
 import taskmanagementsystem.dto.userdto.UserUpdateRoleRequestDto;
-import taskmanagementsystem.model.User;
 import taskmanagementsystem.service.user.UserService;
 
 @RequiredArgsConstructor
@@ -29,8 +28,7 @@ public class UserController {
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/me")
     public UserInfoResponseDto getInfo(Authentication authentication) {
-        User user = (User) userDetailsService.loadUserByUsername(authentication.getName());
-        return userService.getInfo(user.getId());
+        return userService.getInfo(authentication);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -42,9 +40,8 @@ public class UserController {
 
     @PreAuthorize("hasRole('USER')")
     @PatchMapping("/update")
-    public UserInfoResponseDto updateUserInfo(Authentication authentication,
-                                                 @RequestBody UserUpdateInfoRequestDto requestDto) {
-        User user = (User) authentication.getPrincipal();
-        return userService.updateProfileInfo(user.getId(), requestDto);
+    public UserInfoResponseDto updateUserInfo(
+            @RequestBody UserUpdateInfoRequestDto requestDto) {
+        return userService.updateProfileInfo(requestDto);
     }
 }
